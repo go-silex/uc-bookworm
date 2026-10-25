@@ -25,10 +25,11 @@ const PROMPT = "Cette photo montre la couverture d'un livre papier. Donne le tit
 const sha = s => createHash('sha256').update(s).digest();
 
 /* Même mot de passe que la bibliothèque : sans ça, n'importe qui
-   pourrait épuiser le quota Gemini du propriétaire. */
+   pourrait épuiser le quota Gemini du propriétaire. Pas de mot de passe
+   = pas de scan serveur (voir le handler), jamais une porte ouverte. */
 function authorized(req) {
   const want = process.env.LIBRARY_PASSWORD || '';
-  if (!want) return true; // installation sans verrou : rien à protéger
+  if (!want) return false;
   const got = (req.headers.authorization || '').replace(/^Bearer\s+/i, '');
   if (!got) return false;
   return timingSafeEqual(sha(got), sha(want));
@@ -41,7 +42,10 @@ export default async function handler(req, res) {
     res.setHeader('allow', 'POST');
     return res.status(405).json({ error: 'method not allowed' });
   }
-  if (!process.env.GEMINI_API_KEY) return res.status(501).json({ configured: false });
+  // Sans clé, ou sans mot de passe pour la protéger : l'app bascule sur
+  // la clé propre à l'appareil, comme sur un hébergement statique.
+  if (!process.env.GEMINI_API_KEY || !process.env.LIBRARY_PASSWORD)
+    return res.status(501).json({ configured: false });
   if (!authorized(req)) return res.status(401).json({ error: 'unauthorized' });
 
   const { image, genres } = req.body || {};
@@ -78,8 +82,9 @@ export default async function handler(req, res) {
     r = null;
   }
 
-  // La clé du serveur ne doit jamais transparaître dans un message d'erreur.
-  if (!r) return res.status(502).json({ error: msg.replace(/AIza[\w-]+/g, '…') });
+  // Plus aucun modèle (r nul) ou vraie erreur (r lu, non ok) : on renvoie
+  // le message de Google. La clé du serveur ne doit jamais y transparaître.
+  if (!r || !r.ok) return res.status(502).json({ error: msg.replace(/AIza[\w-]+/g, '…') });
 
   const data = await r.json();
   const text = (data.candidates?.[0]?.content?.parts || []).map(p => p.text || '').join('');
