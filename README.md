@@ -20,7 +20,7 @@ Dix minutes, deux comptes gratuits (GitHub et Vercel), aucune carte bancaire.
 
 ### En un clic
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fgo-silex%2Fuc-bookworm&project-name=ma-bibliotheque&repository-name=ma-bibliotheque&env=LIBRARY_PASSWORD&envDescription=Choisis%20un%20mot%20de%20passe%20—%20c%27est%20lui%20qui%20protège%20ta%20bibliothèque&stores=%5B%7B%22type%22%3A%22blob%22%2C%22access%22%3A%22public%22%7D%5D)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fgo-silex%2Fuc-bookworm&project-name=ma-bibliotheque&repository-name=ma-bibliotheque&env=LIBRARY_PASSWORD&envDescription=Choisis%20un%20mot%20de%20passe%20—%20c%27est%20lui%20qui%20protège%20ta%20bibliothèque&stores=%5B%7B%22type%22%3A%22blob%22%2C%22access%22%3A%22private%22%7D%5D)
 
 Vercel te fait créer ta copie, te demande un mot de passe, et fabrique tout le reste. Tu repars avec ta propre adresse et ta bibliothèque synchronisée entre ton téléphone et ton ordinateur.
 
@@ -128,7 +128,7 @@ Sept fichiers de code, aucun framework, aucune étape de build.
 
 **Le modèle de données.** Un livre a un titre, un auteur, un genre, un avis sur 5 facultatif, et une liste de *sessions* de lecture (`startedAt` / `finishedAt`). Tout le reste en découle : le statut se déduit de la dernière session, l'historique est la liste de toutes les sessions terminées.
 
-**La synchronisation.** Le navigateur garde tout en `localStorage` et pousse vers `/api/library`, protégé par un mot de passe unique. Sans serveur configuré, l'API répond `501` et l'app continue en local sans rien dire. Les bibliothèques de deux appareils fusionnent au lieu de s'écraser : les livres se réunissent par titre, les sessions par date de fin. Rien n'est perdu, rien n'est doublé.
+**La synchronisation.** Le navigateur garde tout en `localStorage` et pousse vers `/api/library`, protégé par un mot de passe unique. Côté serveur, la bibliothèque vit dans un store Vercel Blob privé : on ne la lit qu'en passant par ce mot de passe. Sans serveur configuré, l'API répond `501` et l'app continue en local sans rien dire. Les bibliothèques de deux appareils fusionnent au lieu de s'écraser : les livres se réunissent par titre, les sessions par date de fin. Rien n'est perdu, rien n'est doublé.
 
 ---
 
@@ -144,7 +144,7 @@ Vercel is the only supported target, on purpose. The app is plain static files a
 
 **How it works:** four swipeable views (reading, library by genre, favourites, history by year). Books are added by title search or by photographing the cover — barcode first, then a Gemini vision fallback if you supply a free API key. Covers are fetched from Open Library and Google Books. Finished books can be rated out of five stars — never before you've finished them. Re-reads are first-class: each reading session is stored separately, so a book read three times shows up three times in your history.
 
-**Data:** stored in `localStorage` and synced to your own Vercel Blob store behind a single password you choose. Nobody else can read it — the code is public, your library is not.
+**Data:** stored in `localStorage` and synced to your own private Vercel Blob store behind a single password you choose. Nobody else can read it — the code is public, your library is not.
 
 **Last step — put it on your home screen.** No App Store needed. On iPhone, open your URL **in Safari** → *Share* → *Add to Home Screen* → if asked, pick **Open as: Application** → *Add*. On Android, Chrome → **⋮** → *Install app*. It then behaves exactly like a native app, full screen, its own icon.
 
