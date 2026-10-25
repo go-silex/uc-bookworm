@@ -36,7 +36,7 @@ Ce mot de passe protège sa bibliothèque : c'est lui qui sera demandé sur chaq
 
 Ouvre ce lien pour la personne :
 
-**https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fgo-silex%2Fsilex-bookworm&project-name=ma-bibliotheque&repository-name=ma-bibliotheque&env=LIBRARY_PASSWORD&stores=%5B%7B%22type%22%3A%22blob%22%2C%22access%22%3A%22public%22%7D%5D**
+**https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fgo-silex%2Fuc-bookworm&project-name=ma-bibliotheque&repository-name=ma-bibliotheque&env=LIBRARY_PASSWORD&stores=%5B%7B%22type%22%3A%22blob%22%2C%22access%22%3A%22public%22%7D%5D**
 
 Vercel déroule tout seul, dans cet ordre :
 
@@ -220,8 +220,8 @@ Autrement dit : ça marche magnifiquement pendant six mois, puis quelqu'un perd 
 Pour qui veut modifier l'app, pas l'utiliser :
 
 ```bash
-git clone https://github.com/go-silex/silex-bookworm.git
-cd silex-bookworm
+git clone https://github.com/go-silex/uc-bookworm.git
+cd uc-bookworm
 npx serve
 ```
 

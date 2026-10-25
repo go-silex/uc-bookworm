@@ -20,7 +20,7 @@ Dix minutes, deux comptes gratuits (GitHub et Vercel), aucune carte bancaire.
 
 ### En un clic
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fgo-silex%2Fsilex-bookworm&project-name=ma-bibliotheque&repository-name=ma-bibliotheque&env=LIBRARY_PASSWORD&envDescription=Choisis%20un%20mot%20de%20passe%20—%20c%27est%20lui%20qui%20protège%20ta%20bibliothèque&stores=%5B%7B%22type%22%3A%22blob%22%2C%22access%22%3A%22public%22%7D%5D)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fgo-silex%2Fuc-bookworm&project-name=ma-bibliotheque&repository-name=ma-bibliotheque&env=LIBRARY_PASSWORD&envDescription=Choisis%20un%20mot%20de%20passe%20—%20c%27est%20lui%20qui%20protège%20ta%20bibliothèque&stores=%5B%7B%22type%22%3A%22blob%22%2C%22access%22%3A%22public%22%7D%5D)
 
 Vercel te fait créer ta copie, te demande un mot de passe, et fabrique tout le reste. Tu repars avec ta propre adresse et ta bibliothèque synchronisée entre ton téléphone et ton ordinateur.
 
@@ -30,7 +30,7 @@ Prépare ton mot de passe avant de cliquer — il te sera demandé en cours de r
 
 Si tu utilises Claude, ChatGPT ou équivalent, copie-lui ce message :
 
-> Installe cette application pour moi : https://github.com/go-silex/silex-bookworm
+> Installe cette application pour moi : https://github.com/go-silex/uc-bookworm
 > Suis les instructions du fichier INSTALL.md, et pose-moi les questions au fur et à mesure.
 
 Le dépôt contient un guide écrit spécialement pour être lu par une IA : chaque étape, chaque erreur possible et son remède. Tu n'as rien à comprendre, juste à répondre à ce qu'on te demande.
@@ -114,7 +114,7 @@ Chrome et Edge affichent une petite icône d'installation à droite de la barre 
 
 ## Sous le capot
 
-Trois fichiers, aucun framework, aucune étape de build.
+Sept fichiers de code, aucun framework, aucune étape de build.
 
 | | |
 |---|---|
@@ -122,7 +122,9 @@ Trois fichiers, aucun framework, aucune étape de build.
 | `app.js` | toute l'application |
 | `style.css` | tout le style |
 | `glass.js` | l'effet de verre liquide (Chromium uniquement, dégradé ailleurs) |
-| `api/library.js` | la synchronisation — la seule partie serveur, 55 lignes |
+| `api/library.js` | la synchronisation, côté serveur |
+| `api/vision.js` | la reconnaissance de couverture par Gemini, côté serveur — la clé ne passe jamais par le navigateur |
+| `sw.js` | le cache des images de couverture, rien d'autre |
 
 **Le modèle de données.** Un livre a un titre, un auteur, un genre, un avis sur 5 facultatif, et une liste de *sessions* de lecture (`startedAt` / `finishedAt`). Tout le reste en découle : le statut se déduit de la dernière session, l'historique est la liste de toutes les sessions terminées.
 
@@ -158,4 +160,4 @@ Quelques pistes ouvertes : export / import JSON, traduction de l'interface, thè
 
 MIT — voir [LICENSE](LICENSE).
 
-Construit par [GOSILEX](https://gosilex.com).
+Construit par [Unkillable Companies](https://unkillablecompanies.com).
