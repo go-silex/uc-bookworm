@@ -27,7 +27,10 @@ export default async function handler(req, res) {
   res.setHeader('cache-control', 'no-store');
 
   // Déploiement statique ou store non lié : le client bascule en local.
-  if (!process.env.LIBRARY_PASSWORD || !process.env.BLOB_READ_WRITE_TOKEN)
+  // Un store se reconnaît à son jeton (BLOB_READ_WRITE_TOKEN) ou, quand
+  // Vercel le relie par OIDC, à son identifiant (BLOB_STORE_ID).
+  const store = process.env.BLOB_READ_WRITE_TOKEN || process.env.BLOB_STORE_ID;
+  if (!process.env.LIBRARY_PASSWORD || !store)
     return res.status(501).json({ configured: false });
 
   if (!authorized(req)) return res.status(401).json({ error: 'unauthorized' });
