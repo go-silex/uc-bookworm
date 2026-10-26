@@ -66,6 +66,9 @@ async function readLibrary() {
     return data;
   }
 
+  // Store public : lecture d'avant, gardée telle quelle. Le CDN peut y
+  // servir l'ancienne version jusqu'à 60 s après une écriture, `?t=` ou
+  // pas (vérifié) ; seul le store privé lit à l'origine.
   access = 'public';
   return (await fetch(hit.url + '?t=' + Date.now(), { cache: 'no-store' })).json();
 }
