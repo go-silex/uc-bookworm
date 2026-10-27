@@ -36,13 +36,13 @@ Ce mot de passe protège sa bibliothèque : c'est lui qui sera demandé sur chaq
 
 Ouvre ce lien pour la personne :
 
-**https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fgo-silex%2Fuc-bookworm&project-name=ma-bibliotheque&repository-name=ma-bibliotheque&env=LIBRARY_PASSWORD&stores=%5B%7B%22type%22%3A%22blob%22%2C%22access%22%3A%22public%22%7D%5D**
+**https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fgo-silex%2Fuc-bookworm&project-name=ma-bibliotheque&repository-name=ma-bibliotheque&env=LIBRARY_PASSWORD&stores=%5B%7B%22type%22%3A%22blob%22%2C%22access%22%3A%22private%22%7D%5D**
 
 Vercel déroule tout seul, dans cet ordre :
 
 1. **Create Git Repository** — autoriser Vercel à créer un dépôt sur son compte GitHub. Le nom proposé (`ma-bibliotheque`) est modifiable.
 2. **Environment Variables** — un champ `LIBRARY_PASSWORD` : y coller le mot de passe de l'étape 2.
-3. **Storage** — une fenêtre propose de créer un store Blob. **Accepter.** Le mode d'accès est déjà réglé sur `Public` : ne pas le changer, `api/library.js` en dépend et le mode n'est pas modifiable après création.
+3. **Storage** — une fenêtre propose de créer un store Blob. **Accepter.** Le mode d'accès est déjà réglé sur `Private`, et verrouillé : c'est voulu. Un store privé ne se lit qu'avec ses identifiants, qui restent sur le serveur — personne ne lit les livres sans passer par le mot de passe, même en connaissant l'adresse du fichier. Le mode n'est pas modifiable après création.
 4. **Deploy** — une minute d'attente, puis une adresse en `.vercel.app`.
 
 Cette adresse est celle de sa bibliothèque. Fais-la lui enregistrer.
@@ -59,7 +59,7 @@ curl -s -o /dev/null -w "%{http_code}\n" https://SON-ADRESSE.vercel.app/api/libr
 |---|---|---|
 | `401` | ✅ **Tout marche.** L'API refuse une requête sans mot de passe, c'est exactement son rôle. | rien |
 | `501` | `LIBRARY_PASSWORD` ou le store Blob manque | Store non connecté au projet, ou variable non déclarée. Corriger dans **Settings → Environment Variables** / **Storage**, **puis redéployer** : les variables ne s'appliquent qu'au déploiement suivant. |
-| `500` | Erreur d'exécution | Presque toujours : store Blob créé en **Private** au lieu de **Public**. Le mode ne se change pas après création — créer un nouveau store en Public, le connecter, redéployer. Logs dans **Deployments → Functions**. |
+| `500` | Erreur d'exécution | Lire les logs dans **Deployments → Functions** : le message de Vercel Blob nomme la cause (store supprimé, suspendu, identifiants refusés). Si le store n'existe plus, en connecter un nouveau en **Private**, puis redéployer. Un store en **Public** n'est **pas** la cause : c'est le mode des installations faites avant octobre 2026. L'API le reconnaît et continue de lire et d'écrire dedans, rien à faire. Seule différence : sur un store public, qui obtiendrait l'adresse exacte du fichier pourrait le lire (adresse aléatoire, jamais envoyée au navigateur). |
 | `404` | Fonction absente | Le dépôt a été déployé depuis un sous-dossier. Vérifier que `api/library.js` est à la racine. |
 
 **L'app demande le mot de passe et le refuse alors qu'il est correct** → la variable déployée n'est pas celle qu'on croit (espace en trop, ancien déploiement). La revoir dans **Settings → Environment Variables**, redéployer.
@@ -194,7 +194,7 @@ Il faudra ensuite le ressaisir sur chaque appareil.
 
 - **Son mot de passe**, noté quelque part. Il n'y a pas de récupération. Et s'il change un jour, il faudra le répercuter sur le dépôt de sauvegarde (étape 6).
 - **Son adresse** en `.vercel.app`, enregistrée dans les favoris et installée sur son téléphone.
-- **Où sont ses livres** : dans son store Blob, sur son compte Vercel. Pas chez nous, pas chez quelqu'un d'autre. Personne d'autre n'y accède.
+- **Où sont ses livres** : dans son store Blob privé, sur son compte Vercel. Pas chez nous, pas chez quelqu'un d'autre. Personne d'autre n'y accède.
 - **Que c'est à elle.** Le code est public, ses données ne le sont pas.
 
 ---
