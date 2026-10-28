@@ -73,7 +73,7 @@ curl -s -o /dev/null -w "%{http_code}\n" https://SON-ADRESSE.vercel.app/api/libr
 Déroule ces six points dans l'ordre, avec la personne. C'est la recette d'acceptation ; ne considère pas l'installation finie avant le point 6.
 
 1. **L'adresse s'ouvre** et montre une fenêtre de mot de passe.
-2. **Le mot de passe fonctionne** → six livres de démonstration apparaissent (Camus, Sapiens, Dune…). C'est la preuve que la synchronisation est active.
+2. **Le mot de passe fonctionne** → trois livres de démonstration apparaissent (Camus, Dune, Orwell). C'est la preuve que la synchronisation est active.
 3. **Vider la démonstration** : menu **⋯** en haut à droite → **Vider la bibliothèque**.
 4. **Ajouter un vrai livre** : bouton **+** → chercher un titre → choisir un genre → valider. La couverture apparaît en quelques secondes.
 5. **Recharger la page** : le livre est toujours là.

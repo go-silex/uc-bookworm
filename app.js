@@ -21,17 +21,14 @@ const GENRES = [
 ];
 const genre = id => GENRES.find(g => g.id === id) || GENRES[0];
 
+/* Trois livres, un par état : lu deux fois (une relecture, en favori),
+   en cours, et à lire. Chaque écran a ainsi quelque chose à montrer. */
 const SEED = [
-  { title: "L'Étranger",      author: 'Albert Camus',             genre: 'roman', favorite: true,
+  { title: "L'Étranger", author: 'Albert Camus',  genre: 'roman', favorite: true,
     sessions: [{ startedAt: '2019-03-02', finishedAt: '2019-03-11' }, { startedAt: '2024-02-02', finishedAt: '2024-02-11' }] },
-  { title: 'Sapiens',         author: 'Yuval Noah Harari',        genre: 'essai', favorite: true,
-    sessions: [{ startedAt: '2025-09-01', finishedAt: '2025-10-14' }] },
-  { title: 'Dune',            author: 'Frank Herbert',            genre: 'sf',    favorite: false,
+  { title: 'Dune',       author: 'Frank Herbert', genre: 'sf',    favorite: false,
     sessions: [{ startedAt: '2026-07-06', finishedAt: null }] },
-  { title: 'Le Petit Prince', author: 'Antoine de Saint-Exupéry', genre: 'roman', favorite: false,
-    sessions: [{ startedAt: '2023-05-18', finishedAt: '2023-05-20' }] },
-  { title: 'Steve Jobs',      author: 'Walter Isaacson',          genre: 'bio',   favorite: false, sessions: [] },
-  { title: '1984',            author: 'George Orwell',            genre: 'roman', favorite: false, sessions: [] },
+  { title: '1984',       author: 'George Orwell', genre: 'roman', favorite: false, shortlist: true, sessions: [] },
 ];
 
 /* ── État ──────────────────────────────────────────────────── */
@@ -46,7 +43,7 @@ const today = () => {
 
 /* Vrai tant que l'écran n'affiche que la démo : rien de personnel n'a
    encore été saisi. Une bibliothèque distante remplace alors la démo au
-   lieu de fusionner avec elle — sinon les six livres d'exemple
+   lieu de fusionner avec elle — sinon les trois livres d'exemple
    reviendraient s'inviter sur chaque nouvel appareil. */
 let seeded = false;
 
