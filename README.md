@@ -70,7 +70,7 @@ L'app est du HTML et du JavaScript sans étape de build : GitHub Pages ou Netlif
 
 ## Bien démarrer
 
-**Vider la bibliothèque de démonstration.** L'app arrive avec six livres d'exemple pour que tu voies à quoi ça ressemble. Menu **⋯** en haut à droite → **Vider la bibliothèque**.
+**Vider la bibliothèque de démonstration.** L'app arrive avec trois livres d'exemple pour que tu voies à quoi ça ressemble. Menu **⋯** en haut à droite → **Vider la bibliothèque**.
 
 **Le scan de couverture** (facultatif) demande une clé Google Gemini, gratuite et sans carte bancaire, à créer sur [aistudio.google.com](https://aistudio.google.com/apikey).
 
